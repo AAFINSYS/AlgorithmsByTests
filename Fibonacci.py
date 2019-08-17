@@ -105,5 +105,44 @@ class TestIterativeFibonacci(unittest.TestCase):
         self.assertEqual(iterative_fibonacci(15), iterative_fibonacci(14) + iterative_fibonacci(13))
 
 
+def dynamic_programming_fibonacci(input_number):
+    fibo_cache = {
+        0: 0,
+        1: 1,
+    }
+
+    if input_number in (0, 1):
+        return input_number
+
+    fibo_value_n_minus_two = fibo_cache.get(input_number - 2, recursive_fibonacci(input_number - 2))
+    fibo_value_n_minus_one = fibo_cache.get(input_number - 1, recursive_fibonacci(input_number - 1))
+
+    return fibo_value_n_minus_one + fibo_value_n_minus_two
+
+
+class TestDynamicProgrammingFibonacci(unittest.TestCase):
+    def test_should_return_zero_when_input_is_zero(self):
+        actual = dynamic_programming_fibonacci(0)
+
+        self.assertEqual(actual, 0)
+
+    def test_should_return_one_when_input_number_is_one(self):
+        actual = dynamic_programming_fibonacci(1)
+
+        self.assertEqual(actual, 1)
+
+    def test_should_return_one_when_input_number_is_two(self):
+        actual = dynamic_programming_fibonacci(2)
+
+        self.assertEqual(actual, 1)
+
+    def test_should_return_610_when_input_number_is_15(self):
+        actual = dynamic_programming_fibonacci(15)
+
+        self.assertEqual(actual, 610)
+
+    def test_should_return_same_result_for_15_when_processing_sum_from_the_results_from_13_and_14(self):
+        self.assertEqual(dynamic_programming_fibonacci(15), dynamic_programming_fibonacci(14) + dynamic_programming_fibonacci(13))
+
 if __name__ == "__main__":
     unittest.main()
